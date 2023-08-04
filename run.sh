@@ -9,13 +9,14 @@ confirm() {
     default="y"
     read -rN1 -p "$* [Y/n]? " reply
     reply="${reply:-$default}"
-    echo -e "\033[0m"
+    echo -e "\033[0m\n"
     [[ $reply = [Yy] ]]
 }
 
 in_venv=$(python3 -c 'import sys; print ("1" if hasattr(sys, "real_prefix") else "0")')
 
 if [[ $in_venv ]]; then
+    rm -rf $1
     deactivate
 fi
 
@@ -24,12 +25,12 @@ virtualenv -q -p /usr/bin/python3 $1
 source $1/bin/activate
 pip install -r requirements.txt
 
-confirm '[+] Run main.py without pygbag? (Y/n)'; echo
+confirm '[+] Run main.py without pygbag? (Y/n)'
 if [ -z $reply ]; then
     python3 main.py
 fi
 
-confirm '[+] Run main.py with pygbag? (Y/n)'; echo
+confirm '[+] Run main.py with pygbag? (Y/n)'
 if [ -z $reply ]; then
     pwd=${PWD##*/}
     pygbag ../$pwd
