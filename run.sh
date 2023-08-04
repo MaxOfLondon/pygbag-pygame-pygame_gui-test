@@ -5,12 +5,12 @@
 # source ./run.sh .venv
 
 confirm() {
+    DEFAULT="y"
     echo -e "\033[32m"
-    default="y"
-    read -rN1 -p "$* [Y/n]? " reply
-    reply="${reply:-$default}"
+    read -e -p "$* " PROCEED
     echo -e "\033[0m\n"
-    [[ $reply = [Yy] ]]
+    PROCEED="${PROCEED:-${DEFAULT}}"
+    [[ $PROCEED = [Yy] ]]
 }
 
 in_venv=$(python3 -c 'import sys; print ("1" if hasattr(sys, "real_prefix") else "0")')
@@ -25,13 +25,11 @@ virtualenv -q -p /usr/bin/python3 $1
 source $1/bin/activate
 pip install -r requirements.txt
 
-confirm '[+] Run main.py without pygbag? (Y/n)'
-if [ -z $reply ]; then
+confirm '[+] Run main.py without pygbag? (Y/n)' && {
     python3 main.py
-fi
+}
 
-confirm '[+] Run main.py with pygbag? (Y/n)'
-if [ -z $reply ]; then
+confirm '[+] Run main.py with pygbag? (Y/n)' && {
     pwd=${PWD##*/}
     pygbag ../$pwd
-fi
+}
