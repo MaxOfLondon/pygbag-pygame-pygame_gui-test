@@ -22,7 +22,7 @@ virtualenv -q -p /usr/bin/python3 $1
 source $1/bin/activate
 pip install -r requirements.txt
 
-confirm '[+] Run main.py without pygbag?'
+confirm '[+] Run main.py without pygbag? (Y/n)'
 if [ -z $REPLY ]; then
     python3 main.py
 fi
