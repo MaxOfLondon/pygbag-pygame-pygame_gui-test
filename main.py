@@ -1,4 +1,5 @@
 import asyncio
+#import i18n
 import pygame
 import pygame_gui
 
