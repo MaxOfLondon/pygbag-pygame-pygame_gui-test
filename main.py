@@ -39,5 +39,6 @@ async def main():
         manager.draw_ui(window_surface)
 
         pygame.display.update()
+        await asyncio.sleep(0)
 
 asyncio.run(main())
